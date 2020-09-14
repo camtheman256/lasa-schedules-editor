@@ -24,7 +24,7 @@ function SchedulesEditorComponent(props: SchedulesEditorProps) {
 
   return (
     <>
-      <h3>Edit your Schedules here.</h3>
+      <h3>Edit your schedules here.</h3>
       {scheduleError ? (
         <>
           <Alert variant="danger">
