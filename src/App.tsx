@@ -82,6 +82,7 @@ function EditorComponent(props: EditorProps) {
         onChange={editorChange}
         width="auto"
         height="750px"
+        fontSize={14}
       ></AceEditor>
     </>
   );
