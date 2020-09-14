@@ -45,7 +45,8 @@ function NavComponent() {
     <>
       <Navbar bg="light">
         <Navbar.Brand>LASA Schedules Editor</Navbar.Brand>
-        <Navbar.Collapse>
+        <Navbar.Toggle aria-controls="navbar" />
+        <Navbar.Collapse id="navbar">
           <Nav className="ml-auto">
             <Nav.Link href="https://github.com/camtheman256/lasa-schedules-data/blob/master/README.md" target="_blank">↗ Schedules Documentation</Nav.Link>
           </Nav>
