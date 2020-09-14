@@ -1,6 +1,6 @@
 import React, { SyntheticEvent } from 'react';
 import { Alert, Button } from "react-bootstrap";
-import { Schedule, Period } from "./schedule";
+import { Schedule } from "./schedule";
 
 interface SchedulesEditorProps {
   onChange: Function,
@@ -48,7 +48,7 @@ interface ScheduleEditorProps {
 function ScheduleEditorComponent(props: ScheduleEditorProps) {
   return (
     <>
-      <p>Schedule here!</p>
+      <p>Schedule {props.schedule.name ? props.schedule.name : "Untitled"} is here.</p>
     </>
   );
 }
