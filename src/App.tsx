@@ -43,7 +43,7 @@ function App() {
 function NavComponent() {
   return (
     <>
-      <Navbar bg="light">
+      <Navbar bg="light" expand="md">
         <Navbar.Brand>LASA Schedules Editor</Navbar.Brand>
         <Navbar.Toggle aria-controls="navbar" />
         <Navbar.Collapse id="navbar">
