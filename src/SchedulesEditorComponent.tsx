@@ -1,5 +1,5 @@
 import React, { MouseEvent, ChangeEvent } from 'react';
-import { Accordion, Alert, Button, Card, Form } from "react-bootstrap";
+import { Accordion, Alert, Badge, Button, Card, Form } from "react-bootstrap";
 import { parse } from "@prantlf/jsonlint";
 import { Schedule } from "./schedule";
 
@@ -41,9 +41,10 @@ function SchedulesEditorComponent(props: SchedulesEditorProps) {
       ) : (
         <>
           <p><Button variant="primary" onClick={addNewSchedule}>+ Add New Schedule</Button></p>
-          <Accordion defaultActiveKey="0">
+          <Accordion defaultActiveKey="0" className="mb-3">
             {currentSchedules.map((schedule, i) => (<ScheduleEditorComponent schedule={schedule} setSchedule={(s: Schedule) => setSchedule(i, s)} key={i} index={i}></ScheduleEditorComponent>))}
           </Accordion>
+          <p>Once you're done editing your schedules here, head back over to the JSON Code tab and copy and paste your newly-created schedules into the <a href="https://github.com/camtheman256/lasa-schedules-data">LASA Schedules Data repository</a>.</p>
         </>
       )}
     </>
@@ -70,10 +71,14 @@ function ScheduleEditorComponent(props: ScheduleEditorProps) {
         <Card.Header>
           <Accordion.Toggle as={Button} variant="link" eventKey={props.index.toString()}>
             #{props.index}: {scheduleTitle}
+            {props.index === 0 ? (<Badge variant="primary" className="ml-2">Default</Badge>) : null}
           </Accordion.Toggle>
         </Card.Header>
         <Accordion.Collapse eventKey={props.index.toString()}>
           <Card.Body>
+            {props.index === 0 ? (
+              <Alert variant="info">This schedule is the default schedule, so it's always used when a special schedule is not in place.</Alert>
+            ) : null}
             <Form>
               <Form.Group controlId={`name-${props.index}`}>
                 <Form.Label>Schedule Name</Form.Label>
