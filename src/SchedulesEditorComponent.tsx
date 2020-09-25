@@ -1,5 +1,5 @@
-import React, { SyntheticEvent } from 'react';
-import { Alert, Button } from "react-bootstrap";
+import React, { MouseEvent, ChangeEvent } from 'react';
+import { Accordion, Alert, Button, Card, Form } from "react-bootstrap";
 import { parse } from "@prantlf/jsonlint";
 import { Schedule } from "./schedule";
 
@@ -18,8 +18,13 @@ function SchedulesEditorComponent(props: SchedulesEditorProps) {
     scheduleError = err.toString();
   }
 
-  function addNewSchedule(event: SyntheticEvent) {
+  function addNewSchedule(event: MouseEvent) {
 
+  }
+
+  function setSchedule(key: number, schedule: Schedule) {
+    currentSchedules[key] = schedule;
+    props.onChange(JSON.stringify(currentSchedules, null, 4));
   }
 
   return (
@@ -36,7 +41,9 @@ function SchedulesEditorComponent(props: SchedulesEditorProps) {
       ) : (
         <>
           <p><Button variant="primary" onClick={addNewSchedule}>+ Add New Schedule</Button></p>
-          {currentSchedules.map((schedule, i) => (<ScheduleEditorComponent schedule={schedule} key={i}></ScheduleEditorComponent>))}
+          <Accordion defaultActiveKey="0">
+            {currentSchedules.map((schedule, i) => (<ScheduleEditorComponent schedule={schedule} setSchedule={(s: Schedule) => setSchedule(i, s)} key={i} index={i}></ScheduleEditorComponent>))}
+          </Accordion>
         </>
       )}
     </>
@@ -44,13 +51,38 @@ function SchedulesEditorComponent(props: SchedulesEditorProps) {
 }
 
 interface ScheduleEditorProps {
-    schedule: Schedule
+    schedule: Schedule,
+    setSchedule: Function,
+    index: number
 }
 
 function ScheduleEditorComponent(props: ScheduleEditorProps) {
+  const scheduleTitle = props.schedule.name ? props.schedule.name : "Untitled";
+
+  function onScheduleNameChange(event: ChangeEvent<HTMLInputElement>) {
+    props.schedule.name = event.target.value;
+    props.setSchedule(props.schedule);
+  }
+
   return (
     <>
-      <p>Schedule {props.schedule.name ? props.schedule.name : "Untitled"} is here.</p>
+      <Card>
+        <Card.Header>
+          <Accordion.Toggle as={Button} variant="link" eventKey={props.index.toString()}>
+            #{props.index}: {scheduleTitle}
+          </Accordion.Toggle>
+        </Card.Header>
+        <Accordion.Collapse eventKey={props.index.toString()}>
+          <Card.Body>
+            <Form>
+              <Form.Group controlId={`name-${props.index}`}>
+                <Form.Label>Schedule Name</Form.Label>
+                <Form.Control type="text" placeholder="Enter a name" value={props.schedule.name} onChange={onScheduleNameChange}></Form.Control>
+              </Form.Group>
+            </Form>
+          </Card.Body>
+        </Accordion.Collapse>
+      </Card>
     </>
   );
 }

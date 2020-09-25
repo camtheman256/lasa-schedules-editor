@@ -1,5 +1,5 @@
-import React, { SyntheticEvent, useState } from 'react';
-import { Button, Col, Container, Nav, Navbar, Row } from "react-bootstrap";
+import React, { MouseEvent, useState } from 'react';
+import { Button, ButtonGroup, Container, Nav, Navbar, ToggleButton } from "react-bootstrap";
 import AceEditor from "react-ace";
 import SchedulesEditorComponent from "./SchedulesEditorComponent";
 
@@ -12,6 +12,7 @@ import "ace-builds/src-min-noconflict/theme-github";
 function App() {
   const [scheduleString, setSchedule] = useState("[]");
   const schedulesEndpoint = "https://schedules-data.lasa2019.com";
+  const [codeVisible, setCodeVisibility] = useState(0);
   
   function onScheduleJSONChange(newJSONString: string) {
     setSchedule(newJSONString);
@@ -23,18 +24,43 @@ function App() {
       .then(text => setSchedule(text));
   }
 
+  const views = [
+    { name: 'JSON Code', value: 0 },
+    { name: 'Graphical Editor', value: 1 }
+  ];
+
+  function changeView(viewNumber: number) {
+    setCodeVisibility(viewNumber);
+  }
+
+  const viewElements = [
+    <EditorComponent onChange={onScheduleJSONChange} value={scheduleString} downloadSchedule={downloadSchedule}></EditorComponent>,
+    <SchedulesEditorComponent onChange={onScheduleJSONChange} value={scheduleString}></SchedulesEditorComponent>
+  ]
+
   return (
     <>
       <NavComponent></NavComponent>
-      <Container className="mt-3" fluid>
-        <Row>
-          <Col md="6">
-            <EditorComponent onChange={onScheduleJSONChange} value={scheduleString} downloadSchedule={downloadSchedule}></EditorComponent>
-          </Col>
-          <Col md="6">
-            <SchedulesEditorComponent onChange={onScheduleJSONChange} value={scheduleString}></SchedulesEditorComponent>
-          </Col>
-        </Row>
+      <Container className="mt-3">
+        <div>
+          <h3 style={{display: "inline"}}>Pick a view to edit your schedules:</h3>
+          <ButtonGroup toggle className="ml-3">
+            {views.map((view, idx) => (
+              <ToggleButton
+                key={idx}
+                type="radio"
+                variant="primary"
+                checked={codeVisible === view.value}
+                value={view.value}
+                onChange={() => changeView(view.value)}
+              >
+                {view.name}
+              </ToggleButton>
+            ))}
+          </ButtonGroup>
+        </div>
+        <hr />
+        {viewElements[codeVisible]}
       </Container>
     </>
   );
@@ -67,7 +93,7 @@ function EditorComponent(props: EditorProps) {
     props.onChange(value);
   }
 
-  function downloadSchedule(event: SyntheticEvent) {
+  function downloadSchedule(event: MouseEvent) {
     props.downloadSchedule();
   }
 
