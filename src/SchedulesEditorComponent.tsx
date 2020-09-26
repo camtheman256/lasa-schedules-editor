@@ -19,6 +19,10 @@ function SchedulesEditorComponent(props: SchedulesEditorProps) {
     scheduleError = err.toString();
   }
 
+  function formatSchedules(schedules: Schedule[]) {
+    return JSON.stringify(schedules, null, 4);
+  }
+
   function addNewSchedule(event: MouseEvent) {
     currentSchedules.push({
       "name": "New Schedule",
@@ -26,12 +30,17 @@ function SchedulesEditorComponent(props: SchedulesEditorProps) {
       "dates": [],
       "schedule": []
     });
-    props.onChange(JSON.stringify(currentSchedules, null, 4));
+    props.onChange(formatSchedules(currentSchedules));
   }
 
   function setSchedule(key: number, schedule: Schedule) {
     currentSchedules[key] = schedule;
-    props.onChange(JSON.stringify(currentSchedules, null, 4));
+    props.onChange(formatSchedules(currentSchedules));
+  }
+
+  function removeSchedule(index: number) {
+    currentSchedules.splice(index, 1);
+    props.onChange(formatSchedules(currentSchedules));
   }
 
   return (
@@ -49,7 +58,7 @@ function SchedulesEditorComponent(props: SchedulesEditorProps) {
         <>
           <p><Button variant="primary" onClick={addNewSchedule}>+ Add New Schedule</Button></p>
           <Accordion defaultActiveKey="0" className="mb-3">
-            {currentSchedules.map((schedule, i) => (<ScheduleEditorComponent schedule={schedule} setSchedule={(s: Schedule) => setSchedule(i, s)} key={i} index={i}></ScheduleEditorComponent>))}
+            {currentSchedules.map((schedule, i) => (<ScheduleEditorComponent schedule={schedule} setSchedule={(s: Schedule) => setSchedule(i, s)} key={i} index={i} removeSchedule={() => removeSchedule(i)}></ScheduleEditorComponent>))}
           </Accordion>
           <p>Once you're done editing your schedules here, head back over to the JSON Code tab and copy and paste your newly-created schedules into the <a href="https://github.com/camtheman256/lasa-schedules-data">LASA Schedules Data repository</a>.</p>
         </>
@@ -61,7 +70,8 @@ function SchedulesEditorComponent(props: SchedulesEditorProps) {
 interface ScheduleEditorProps {
     schedule: Schedule,
     setSchedule: Function,
-    index: number
+    index: number,
+    removeSchedule: Function
 }
 
 function ScheduleEditorComponent(props: ScheduleEditorProps) {
@@ -107,6 +117,7 @@ function ScheduleEditorComponent(props: ScheduleEditorProps) {
             #{props.index}: {scheduleTitle}
             {props.index === 0 ? (<Badge variant="primary" className="ml-2">Default</Badge>) : null}
           </Accordion.Toggle>
+          <Button className="float-right" variant="danger" onClick={() => props.removeSchedule()}>&times;</Button>
         </Card.Header>
         <Accordion.Collapse eventKey={props.index.toString()}>
           <Card.Body>
