@@ -1,7 +1,8 @@
 import React, { MouseEvent, ChangeEvent } from 'react';
 import { Accordion, Alert, Badge, Button, Card, Form } from "react-bootstrap";
 import { parse } from "@prantlf/jsonlint";
-import { Schedule } from "./schedule";
+import { Period, Schedule } from "./schedule";
+import PeriodsEditorComponent from './PeriodsEditorComponent';
 
 interface SchedulesEditorProps {
   onChange: Function,
@@ -91,6 +92,11 @@ function ScheduleEditorComponent(props: ScheduleEditorProps) {
     props.setSchedule(props.schedule);
   }
 
+  function onPeriodsChange(newPeriods: Period[]) {
+    props.schedule.schedule = newPeriods;
+    props.setSchedule(props.schedule);
+  }
+
   const daysOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
 
   return (
@@ -126,6 +132,8 @@ function ScheduleEditorComponent(props: ScheduleEditorProps) {
               <hr />
               <DateArrayComponent onChange={onScheduleDatesChange} value={props.schedule.dates} index={props.index}></DateArrayComponent>
             </Form>
+            <hr />
+            <PeriodsEditorComponent onChange={onPeriodsChange} value={props.schedule.schedule}></PeriodsEditorComponent>
           </Card.Body>
         </Accordion.Collapse>
       </Card>
