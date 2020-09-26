@@ -19,7 +19,13 @@ function SchedulesEditorComponent(props: SchedulesEditorProps) {
   }
 
   function addNewSchedule(event: MouseEvent) {
-
+    currentSchedules.push({
+      "name": "New Schedule",
+      "combinedAB": false,
+      "dates": [],
+      "schedule": []
+    });
+    props.onChange(JSON.stringify(currentSchedules, null, 4));
   }
 
   function setSchedule(key: number, schedule: Schedule) {
@@ -65,6 +71,28 @@ function ScheduleEditorComponent(props: ScheduleEditorProps) {
     props.setSchedule(props.schedule);
   }
 
+  function onScheduleABChange(event: ChangeEvent<HTMLInputElement>) {
+    props.schedule.combinedAB = event.target.checked;
+    props.setSchedule(props.schedule);
+  }
+
+  function onScheduleDatesChange(newDates: string[]) {
+    props.schedule.dates = newDates;
+    props.setSchedule(props.schedule);
+  }
+
+  function changeApplyDayVisibility(event: ChangeEvent<HTMLInputElement>) {
+    props.schedule.applyDay = event.target.checked ? 1 : undefined;
+    props.setSchedule(props.schedule);
+  }
+
+  function setApplyDay(event: ChangeEvent<HTMLInputElement>) {
+    props.schedule.applyDay = parseInt(event.target.value);
+    props.setSchedule(props.schedule);
+  }
+
+  const daysOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
+
   return (
     <>
       <Card>
@@ -84,6 +112,19 @@ function ScheduleEditorComponent(props: ScheduleEditorProps) {
                 <Form.Label>Schedule Name</Form.Label>
                 <Form.Control type="text" placeholder="Enter a name" value={props.schedule.name} onChange={onScheduleNameChange}></Form.Control>
               </Form.Group>
+              <Form.Check checked={props.schedule.combinedAB || false} label="Combined A/B Periods?" onChange={onScheduleABChange} type="checkbox"
+                id={`combined-${props.index}`}
+              ></Form.Check>
+              <Form.Check checked={props.schedule.applyDay !== undefined} label="Apply schedule on a certain day of the week?" type="checkbox"
+                id={`apply-on-${props.index}`} onChange={changeApplyDayVisibility}
+              ></Form.Check>
+              {props.schedule.applyDay !== undefined ? (
+                <Form.Control as="select" value={props.schedule.applyDay} id={`apply-${props.index}`} onChange={setApplyDay}>
+                  {daysOfWeek.map((d, i) => (<option value={(i+1).toString()} key={i}>{i+1} - {d}</option>))}
+                </Form.Control>
+              ) : null}
+              <hr />
+              <DateArrayComponent onChange={onScheduleDatesChange} value={props.schedule.dates} index={props.index}></DateArrayComponent>
             </Form>
           </Card.Body>
         </Accordion.Collapse>
