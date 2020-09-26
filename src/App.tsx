@@ -24,11 +24,6 @@ function App() {
       .then(text => setSchedule(text));
   }
 
-  const views = [
-    { name: 'JSON Code', value: 0 },
-    { name: 'Graphical Editor', value: 1 }
-  ];
-
   function changeView(viewNumber: number) {
     setCodeVisibility(viewNumber);
   }
@@ -36,29 +31,13 @@ function App() {
   const viewElements = [
     <EditorComponent onChange={onScheduleJSONChange} value={scheduleString} downloadSchedule={downloadSchedule}></EditorComponent>,
     <SchedulesEditorComponent onChange={onScheduleJSONChange} value={scheduleString}></SchedulesEditorComponent>
-  ]
+  ];
 
   return (
     <>
       <NavComponent></NavComponent>
       <Container className="mt-3">
-        <div>
-          <h3 style={{display: "inline"}}>Pick a view to edit your schedules:</h3>
-          <ButtonGroup toggle className="ml-3">
-            {views.map((view, idx) => (
-              <ToggleButton
-                key={idx}
-                type="radio"
-                variant="primary"
-                checked={codeVisible === view.value}
-                value={view.value}
-                onChange={() => changeView(view.value)}
-              >
-                {view.name}
-              </ToggleButton>
-            ))}
-          </ButtonGroup>
-        </div>
+        <ViewPicker changeView={changeView} visiblePane={codeVisible}></ViewPicker>
         <hr />
         {viewElements[codeVisible]}
       </Container>
@@ -78,6 +57,41 @@ function NavComponent() {
           </Nav>
         </Navbar.Collapse>
       </Navbar>
+    </>
+  );
+}
+
+interface ViewPickerProps {
+  changeView: Function,
+  visiblePane: number
+}
+
+function ViewPicker(props: ViewPickerProps) {
+  
+  const views = [
+    { name: 'JSON Code', value: 0 },
+    { name: 'Graphical Editor', value: 1 }
+  ];
+
+  return (
+    <>
+      <div>
+        <h3 style={{display: "inline"}}>Pick a view to edit your schedules:</h3>
+        <ButtonGroup toggle className="ml-3">
+          {views.map((view, idx) => (
+            <ToggleButton
+              key={idx}
+              type="radio"
+              variant="primary"
+              checked={props.visiblePane === view.value}
+              value={view.value}
+              onChange={() => props.changeView(view.value)}
+            >
+              {view.name}
+            </ToggleButton>
+          ))}
+        </ButtonGroup>
+      </div>
     </>
   );
 }
