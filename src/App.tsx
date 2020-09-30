@@ -14,12 +14,6 @@ function App() {
   const schedulesEndpoint = "https://schedules-data.lasa2019.com";
   const [codeVisible, setCodeVisibility] = useState(0);
 
-  // FIXME: eventually remove this when adding Router
-  window.addEventListener("beforeunload", (e: Event) => {
-    e.preventDefault();
-    e.returnValue = true;
-  });
-  
   function onScheduleJSONChange(newJSONString: string) {
     setSchedule(newJSONString);
   }
