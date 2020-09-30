@@ -2,3 +2,7 @@
     display: inline-block;
     width: auto;
 }
+
+.time-width {
+    width: 15ch;
+}
