@@ -1,7 +1,7 @@
 export interface Schedule {
     name: string,
     combinedAB: boolean,
-    applyDay?: number,
+    applyDay?: number[],
     dates?: string[]
     schedule: Period[],
 }

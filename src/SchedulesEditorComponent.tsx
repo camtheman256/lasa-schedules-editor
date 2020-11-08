@@ -95,12 +95,12 @@ function ScheduleEditorComponent(props: ScheduleEditorProps) {
   }
 
   function changeApplyDayVisibility(event: ChangeEvent<HTMLInputElement>) {
-    props.schedule.applyDay = event.target.checked ? 1 : undefined;
+    props.schedule.applyDay = event.target.checked ? [1] : undefined;
     props.setSchedule(props.schedule);
   }
 
-  function setApplyDay(event: ChangeEvent<HTMLInputElement>) {
-    props.schedule.applyDay = parseInt(event.target.value);
+  function setApplyDay(event: ChangeEvent<HTMLSelectElement>) {
+    props.schedule.applyDay = Array.from(event.target.selectedOptions, opt => parseInt(opt.value));
     props.setSchedule(props.schedule);
   }
 
@@ -134,12 +134,12 @@ function ScheduleEditorComponent(props: ScheduleEditorProps) {
               <Form.Check checked={props.schedule.combinedAB || false} label="Combined A/B Period Names?" onChange={onScheduleABChange} type="checkbox"
                 id={newId()}
               ></Form.Check>
-              <Form.Check checked={props.schedule.applyDay !== undefined} label="Apply schedule on a certain day of the week?" type="checkbox"
+              <Form.Check checked={props.schedule.applyDay !== undefined} label="Apply schedule on a certain day(s) of the week?" type="checkbox"
                 id={newId()} onChange={changeApplyDayVisibility}
               ></Form.Check>
               {props.schedule.applyDay !== undefined ? (
-                <Form.Control as="select" value={props.schedule.applyDay} id={newId()} onChange={setApplyDay}>
-                  {daysOfWeek.map((d, i) => (<option value={(i+1).toString()} key={i}>{i+1} - {d}</option>))}
+                <Form.Control as="select" multiple id={newId()} onChange={setApplyDay}>
+                  {daysOfWeek.map((d, i) => (<option value={(i+1).toString()} key={i} selected={props.schedule.applyDay && props.schedule.applyDay.includes(i+1)}>{i+1} - {d}</option>))}
                 </Form.Control>
               ) : null}
               <hr />
