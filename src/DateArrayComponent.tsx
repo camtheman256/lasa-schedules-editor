@@ -52,7 +52,7 @@ function DateArrayComponent(props: DateArrayComponentProps) {
     <>
       <h5>Dates:</h5>
       {props.index === 0 ? (
-        <Alert variant="secondary">Dates have no effect on the default schedule. Feel free to ignore.</Alert>
+        <Alert variant="secondary">On the default schedule, dates override schedules that apply on a certain day of the week.</Alert>
       ) : null}
       {props.value ? props.value.map((v: string | string[], i) => (
         <div key={i} className="mb-2">
