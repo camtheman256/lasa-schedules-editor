@@ -20,7 +20,7 @@ jobs:
       - name: ✅ Checkout Code
         uses: actions/checkout@v2
       - name: 🏗 Set up Node
-        uses: actions/setup-node@v1.4.3
+        uses: actions/setup-node@v2.1.4
         with:
           node-version: "12.x"
       - name: 🛍 Get Packages
