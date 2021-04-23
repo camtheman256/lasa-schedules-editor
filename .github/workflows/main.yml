@@ -22,9 +22,9 @@ jobs:
       - name: 🏗 Set up Node
         uses: actions/setup-node@v2.1.4
         with:
-          node-version: "12.x"
+          node-version: "14.x"
       - name: 🛍 Get Packages
-        run: npm install
+        run: yarn install --frozen-lockfile --prod
       - name: 🛠 Build React App
         run: npm run build
       - name: 🚀 Deploy App
