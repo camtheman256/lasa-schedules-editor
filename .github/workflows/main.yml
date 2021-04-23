@@ -24,7 +24,7 @@ jobs:
         with:
           node-version: "14.x"
       - name: 🛍 Get Packages
-        run: yarn install --frozen-lockfile --prod
+        run: yarn install --frozen-lockfile
       - name: 🛠 Build React App
         run: npm run build
       - name: 🚀 Deploy App
