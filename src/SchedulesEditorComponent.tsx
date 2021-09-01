@@ -17,7 +17,7 @@ function SchedulesEditorComponent(props: SchedulesEditorProps) {
   let currentSchedules: Schedule[] = [];
   try {
     currentSchedules = parse(props.value) as Schedule[];
-  } catch(err) {
+  } catch(err: any) {
     scheduleError = err.toString();
   }
 
