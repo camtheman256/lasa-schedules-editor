@@ -9,7 +9,7 @@
     "@testing-library/user-event": "^13.5.0",
     "@types/jest": "^27.0.2",
     "@types/node": "^16.11.2",
-    "@types/react": "^17.0.31",
+    "@types/react": "^17.0.32",
     "@types/react-dom": "^17.0.10",
     "@types/uuid": "^8.3.1",
     "ace-builds": "^1.4.13",
