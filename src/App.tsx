@@ -11,7 +11,7 @@ import "ace-builds/src-min-noconflict/theme-github";
 
 function App() {
   const [scheduleString, setSchedule] = useState("[]");
-  const schedulesEndpoint = "https://schedules-data.lasa2019.com";
+  const schedulesEndpoint = "https://camtheman256.github.io/lasa-schedules-data/";
   const [codeVisible, setCodeVisibility] = useState(0);
 
   function onScheduleJSONChange(newJSONString: string) {
