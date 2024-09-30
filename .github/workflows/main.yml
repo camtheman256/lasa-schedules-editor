@@ -27,6 +27,8 @@ jobs:
         run: yarn install --frozen-lockfile
       - name: 🛠 Build React App
         run: npm run build
+        env:
+          PUBLIC_URL: '/lasa-schedules-editor'
       - name: 🚀 Deploy App
         uses: JamesIves/github-pages-deploy-action@4.1.8
         with:
