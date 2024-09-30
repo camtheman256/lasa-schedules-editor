@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/static/css/main.1b2b7af4.css",
-    "main.js": "/static/js/main.1f9a7547.js",
-    "index.html": "/index.html",
-    "main.1b2b7af4.css.map": "/static/css/main.1b2b7af4.css.map",
-    "main.1f9a7547.js.map": "/static/js/main.1f9a7547.js.map"
+    "main.css": "/lasa-schedules-editor/static/css/main.1b2b7af4.css",
+    "main.js": "/lasa-schedules-editor/static/js/main.9631487c.js",
+    "index.html": "/lasa-schedules-editor/index.html",
+    "main.1b2b7af4.css.map": "/lasa-schedules-editor/static/css/main.1b2b7af4.css.map",
+    "main.9631487c.js.map": "/lasa-schedules-editor/static/js/main.9631487c.js.map"
   },
   "entrypoints": [
     "static/css/main.1b2b7af4.css",
-    "static/js/main.1f9a7547.js"
+    "static/js/main.9631487c.js"
   ]
 }
